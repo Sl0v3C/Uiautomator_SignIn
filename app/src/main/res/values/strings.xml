@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">自动签到助手</string>
+    <string name="unlock_info">如果京东金融设置了图案解锁，请点击设置解锁图案（一次即可，如果修改了锁屏图案，请再次点击设置）</string>
+    <string name="sign">自动签到</string>
+    <string name="getpoint">设置解锁图案</string>
+    <string name="help">
+    运行自动签到前，请保持手机网络连接，签到期间请不要操作手机。请连接手机至PC，运行脚本来开始自动签到。
+    </string>
+</resources>
