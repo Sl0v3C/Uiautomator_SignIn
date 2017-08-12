@@ -1,3 +1,14 @@
+[Uiautomator_SignIn](#uiautomator_signin)  
+　1. [Requirements](#requirements)  
+　2. [Usage](#usage)  
+　3. [Notice](#notice)  
+[中文说明(README.md in Chinese version)](#中文说明readmemd-in-chinese-version)  
+　1. [要求](#要求)  
+　2. [用法](#用法)  
+　3. [注意](#注意)  
+
+<img width="202" height="330" src="/gif/example.gif">  
+  
 # Uiautomator_SignIn
 SignIn tool fully automatic implemented by Uiautomator, which can help us to auto sign in for 3rd party apps.  
 
