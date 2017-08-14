@@ -269,7 +269,8 @@ public class Sign {
                 delay(5000);
                 mDevice.click(544, 453); // 打卡
                 delay(3000);
-                // TODO 领取钢蹦
+				mDevice.click(711, 471); // 7days 领取
+                delay(3000);
                 mDevice.pressBack();
                 delay(1000);
                 UiObject2 back = mDevice.wait(Until.findObject(By.res("com.jd.jrapp:id/btn_left")), timeout);
