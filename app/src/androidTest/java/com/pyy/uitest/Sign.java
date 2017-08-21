@@ -100,6 +100,24 @@ public class Sign {
         return array;
     }
 
+    private void reLaunchApp(UiDevice device, String name) {
+        if (!device.getCurrentPackageName().equals(name)) {
+            launchPackage(name);
+            delay(5000);
+            if (name.equals("com.jd.jrapp")) {
+                try {
+                    gestureUnlock(device);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (UiObjectNotFoundException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     @Test
     public void TXDMTest() throws IOException, UiObjectNotFoundException, InterruptedException {
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
@@ -113,6 +131,7 @@ public class Sign {
         mDevice.waitForWindowUpdate(Package, timeout);
         delay(5000);
         mDevice.pressBack();
+        reLaunchApp(mDevice, Package);
         UiObject2 sign = mDevice.wait(Until.findObject(By.res("com.qq.ac.android:id/tab_layout_center")), timeout);
         if (sign != null) {
             sign.click();
@@ -132,6 +151,7 @@ public class Sign {
             mDevice.pressBack();
             mDevice.pressBack();
         }
+
     }
 
     @Test
@@ -146,6 +166,10 @@ public class Sign {
         }
         mDevice.waitForWindowUpdate(Package, timeout);
         delay(3000);
+        mDevice.pressBack();
+        delay(3000);
+        mDevice.pressBack();
+        reLaunchApp(mDevice, Package);
         UiObject2 sign = mDevice.wait(Until.findObject(By.text("签到")), timeout);
         if (sign != null) {
             UiObject2 parent = sign.getParent();
@@ -154,18 +178,16 @@ public class Sign {
                 parent.click();
                 delay(5000);
                 mDevice.swipe(260, 1529, 872, 1529, 20);
-                mDevice.pressBack();
-                mDevice.pressBack();
-                mDevice.pressBack();
             } else {
                 sign.click();
                 delay(5000);
                 mDevice.swipe(260, 1529, 872, 1529, 20);
-                mDevice.pressBack();
-                mDevice.pressBack();
-                mDevice.pressBack();
+
             }
         }
+        mDevice.pressBack();
+        mDevice.pressBack();
+        mDevice.pressBack();
     }
 
     @Test
@@ -189,15 +211,7 @@ public class Sign {
             mDevice.pressBack();
         }
         delay(3000);
-        if (mDevice.getCurrentPackageName().equals(Package)) {// "领券"
-            mDevice.click(523, 785);
-            delay(5000);
-            mDevice.click(550, 744);
-            delay(3000);
-            mDevice.pressBack();
-            mDevice.pressBack();
-        }
-        delay(3000);
+        reLaunchApp(mDevice, Package);
         if (mDevice.getCurrentPackageName().equals(Package)) {// "惠赚钱"
             mDevice.click(755, 804);
             delay(6000);
@@ -206,6 +220,7 @@ public class Sign {
             mDevice.pressBack();
         }
         delay(3000);
+        reLaunchApp(mDevice, Package);
         if (mDevice.getCurrentPackageName().equals(Package)) {// "会员京豆"
             UiObject2 vip = mDevice.wait(Until.findObject(By.desc("我的")), timeout);
             if (vip != null) {
@@ -225,17 +240,8 @@ public class Sign {
         mDevice.pressBack();
     }
 
-    @Test
-    public void JDJRTest() throws IOException, UiObjectNotFoundException, InterruptedException {
-        mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        final String Package = getPackageName(JDJR);
-        assertThat(Package, notNullValue());
-        stopApp(mDevice, Package);
-        launchPackage(Package);
-        while (!mDevice.getCurrentPackageName().equals(Package)) {
-            delay(5000);
-        }
-        UiObject2 gesture = mDevice.wait(Until.findObject(By.res("com.jd.jrapp:id/txt_forget_gesture")), timeout);
+    private void gestureUnlock(UiDevice device) throws IOException, UiObjectNotFoundException, InterruptedException {
+        UiObject2 gesture = device.wait(Until.findObject(By.res("com.jd.jrapp:id/txt_forget_gesture")), timeout);
         if (gesture != null) {
             FileReader file = new FileReader(FILE);
             BufferedReader br = new BufferedReader(file);
@@ -249,7 +255,27 @@ public class Sign {
             }
             mDevice.swipe(p, 40);
         }
-        //mDevice.waitForWindowUpdate(Package,timeout);
+    }
+
+    @Test
+    public void JDJRTest() throws IOException, UiObjectNotFoundException, InterruptedException {
+        mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        final String Package = getPackageName(JDJR);
+        assertThat(Package, notNullValue());
+        stopApp(mDevice, Package);
+        launchPackage(Package);
+        while (!mDevice.getCurrentPackageName().equals(Package)) {
+            delay(5000);
+        }
+        gestureUnlock(mDevice);
+        { // remove the info or advertisement
+            mDevice.pressBack();
+            delay(3000);
+            mDevice.pressBack();
+            delay(3000);
+            mDevice.pressBack();
+        }
+        reLaunchApp(mDevice, Package);
         UiObject2 sign = mDevice.wait(Until.findObject(By.text("签到")), timeout);
         if (sign != null) {
             sign.click();
@@ -269,7 +295,7 @@ public class Sign {
                 delay(5000);
                 mDevice.click(544, 453); // 打卡
                 delay(3000);
-				mDevice.click(711, 471); // 7days 领取
+                mDevice.click(711, 471); // 7days 领取
                 delay(3000);
                 mDevice.pressBack();
                 delay(1000);
