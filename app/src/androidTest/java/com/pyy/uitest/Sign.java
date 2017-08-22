@@ -89,6 +89,29 @@ public class Sign {
             e.printStackTrace();
         }
     }
+
+    private String getPackageName(String name) {
+        // Use PackageManager to get the launcher package name
+        PackageManager pm = InstrumentationRegistry.getContext().getPackageManager();
+        List<PackageInfo> packages = pm.getInstalledPackages(0);
+        for (int i = 0; i < packages.size(); i++) {
+            PackageInfo packageInfo = packages.get(i);
+            AppInfo tempInfo = new AppInfo();
+            tempInfo.appName = packageInfo.applicationInfo.loadLabel(pm).toString();
+            tempInfo.packageName = packageInfo.packageName;
+            tempInfo.versionName = packageInfo.versionName;
+            tempInfo.versionCode = packageInfo.versionCode;
+            tempInfo.appIcon = packageInfo.applicationInfo.loadIcon(pm);
+
+            if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+                if (tempInfo.appName.equals(name)) {
+                    //Log.i(logTag, "appName " + tempInfo.appName + " packageName " + tempInfo.packageName);
+                    intentName = tempInfo.packageName;
+                }
+            }
+        }
+        return intentName;
+    }
     
     private static int[] string2array(String string) {
         String[] sArray = string.split(",");
@@ -98,6 +121,24 @@ public class Sign {
         }
 
         return array;
+    }
+
+
+    private void gestureUnlock(UiDevice device) throws IOException, UiObjectNotFoundException, InterruptedException {
+        UiObject2 gesture = device.wait(Until.findObject(By.res("com.jd.jrapp:id/txt_forget_gesture")), timeout);
+        if (gesture != null) {
+            FileReader file = new FileReader(FILE);
+            BufferedReader br = new BufferedReader(file);
+            String read = br.readLine();
+            int[] Array =string2array(read.trim());
+            int size = Array.length / 2;
+            Point[] p = new Point[size];
+            for (int i = 0; i < Array.length; i += 2) {
+                Point temp = new Point(Array[i], Array[i + 1]);
+                p[i / 2] = temp;
+            }
+            mDevice.swipe(p, 40);
+        }
     }
 
     private void reLaunchApp(UiDevice device, String name) {
@@ -164,9 +205,9 @@ public class Sign {
         while (!mDevice.getCurrentPackageName().equals(Package)) {
             delay(5000);
         }
-        mDevice.waitForWindowUpdate(Package, timeout);
         delay(3000);
         mDevice.pressBack();
+        mDevice.waitForWindowUpdate(Package, timeout);
         delay(3000);
         mDevice.pressBack();
         reLaunchApp(mDevice, Package);
@@ -178,16 +219,10 @@ public class Sign {
                 parent.click();
                 delay(5000);
                 mDevice.swipe(260, 1529, 872, 1529, 20);
-            } else {
-                sign.click();
-                delay(5000);
-                mDevice.swipe(260, 1529, 872, 1529, 20);
-
+                delay(1000);
             }
         }
-        mDevice.pressBack();
-        mDevice.pressBack();
-        mDevice.pressBack();
+        mDevice.pressHome();
     }
 
     @Test
@@ -202,22 +237,36 @@ public class Sign {
         }
         mDevice.waitForWindowUpdate(Package, timeout);
         if (mDevice.getCurrentPackageName().equals(Package)) {// "领京豆"
-            mDevice.click(333, 811);
-            delay(6000);
-            mDevice.click(917, 420);
-            delay(6000);
-            mDevice.click(283, 1254);
-            mDevice.pressBack();
-            mDevice.pressBack();
+            UiObject2 sign = mDevice.wait(Until.findObject(By.text("领京豆")), timeout);
+            if (sign != null) {
+                UiObject2 parent = sign.getParent();
+                if (parent != null && parent.isClickable() &&
+                        "android.widget.RelativeLayout".equals(parent.getClassName())) {
+                    parent.click();
+                    delay(5000);
+                    mDevice.click(917, 420);
+                    delay(6000);
+                    mDevice.click(283, 1254);
+                    mDevice.pressBack();
+                    mDevice.pressBack();
+                }
+            }
         }
         delay(3000);
         reLaunchApp(mDevice, Package);
         if (mDevice.getCurrentPackageName().equals(Package)) {// "惠赚钱"
-            mDevice.click(755, 804);
-            delay(6000);
-            mDevice.click(916, 980);
-            delay(3000);
-            mDevice.pressBack();
+            UiObject2 sign = mDevice.wait(Until.findObject(By.text("惠赚钱")), timeout);
+            if (sign != null) {
+                UiObject2 parent = sign.getParent();
+                if (parent != null && parent.isClickable() &&
+                        "android.widget.RelativeLayout".equals(parent.getClassName())) {
+                    parent.click();
+                    delay(5000);
+                    mDevice.click(916, 980);
+                    delay(3000);
+                    mDevice.pressBack();
+                }
+            }
         }
         delay(3000);
         reLaunchApp(mDevice, Package);
@@ -238,23 +287,6 @@ public class Sign {
         mDevice.pressBack();
         mDevice.pressBack();
         mDevice.pressBack();
-    }
-
-    private void gestureUnlock(UiDevice device) throws IOException, UiObjectNotFoundException, InterruptedException {
-        UiObject2 gesture = device.wait(Until.findObject(By.res("com.jd.jrapp:id/txt_forget_gesture")), timeout);
-        if (gesture != null) {
-            FileReader file = new FileReader(FILE);
-            BufferedReader br = new BufferedReader(file);
-            String read = br.readLine();
-            int[] Array =string2array(read.trim());
-            int size = Array.length / 2;
-            Point[] p = new Point[size];
-            for (int i = 0; i < Array.length; i += 2) {
-                Point temp = new Point(Array[i], Array[i + 1]);
-                p[i / 2] = temp;
-            }
-            mDevice.swipe(p, 40);
-        }
     }
 
     @Test
@@ -306,29 +338,6 @@ public class Sign {
                 mDevice.pressHome();
             }
         }
-    }
-
-    private String getPackageName(String name) {
-        // Use PackageManager to get the launcher package name
-        PackageManager pm = InstrumentationRegistry.getContext().getPackageManager();
-        List<PackageInfo> packages = pm.getInstalledPackages(0);
-        for (int i = 0; i < packages.size(); i++) {
-            PackageInfo packageInfo = packages.get(i);
-            AppInfo tempInfo = new AppInfo();
-            tempInfo.appName = packageInfo.applicationInfo.loadLabel(pm).toString();
-            tempInfo.packageName = packageInfo.packageName;
-            tempInfo.versionName = packageInfo.versionName;
-            tempInfo.versionCode = packageInfo.versionCode;
-            tempInfo.appIcon = packageInfo.applicationInfo.loadIcon(pm);
-
-            if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
-                if (tempInfo.appName.equals(name)) {
-                    //Log.i(logTag, "appName " + tempInfo.appName + " packageName " + tempInfo.packageName);
-                    intentName = tempInfo.packageName;
-                }
-            }
-        }
-        return intentName;
     }
 
 }
