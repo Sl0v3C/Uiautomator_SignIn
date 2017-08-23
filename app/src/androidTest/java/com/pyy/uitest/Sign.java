@@ -315,7 +315,7 @@ public class Sign {
             if (signchild != null) {
                 signchild.click();
                 delay(5000);
-                mDevice.click(942, 529); // 签到领京豆
+                mDevice.click(942, 600); // 签到领京豆
                 delay(1000);
                 mDevice.pressBack();
                 delay(4000);
