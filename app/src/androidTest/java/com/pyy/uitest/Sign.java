@@ -236,6 +236,23 @@ public class Sign {
             delay(5000);
         }
         mDevice.waitForWindowUpdate(Package, timeout);
+        if (mDevice.getCurrentPackageName().equals(Package)) {// "会员京豆"
+            UiObject2 vip = mDevice.wait(Until.findObject(By.desc("我的")), timeout);
+            if (vip != null) {
+                vip.click();
+                vip = mDevice.wait(Until.findObject(By.res("com.jd.lib.personal:id/user_vip")), timeout);
+                if (vip != null) {
+                    vip.click();
+                    delay(6000);
+                    mDevice.click(1009, 806);
+                    delay(3000);
+                    mDevice.pressBack();
+                    mDevice.pressBack();
+                }
+            }
+        }
+        delay(3000);
+        reLaunchApp(mDevice, Package);
         if (mDevice.getCurrentPackageName().equals(Package)) {// "领京豆"
             UiObject2 sign = mDevice.wait(Until.findObject(By.text("领京豆")), timeout);
             if (sign != null) {
@@ -243,9 +260,9 @@ public class Sign {
                 if (parent != null && parent.isClickable() &&
                         "android.widget.RelativeLayout".equals(parent.getClassName())) {
                     parent.click();
-                    delay(5000);
+                    delay(10000);
                     mDevice.click(917, 420);
-                    delay(6000);
+                    delay(10000);
                     mDevice.click(283, 1254);
                     mDevice.pressBack();
                     mDevice.pressBack();
@@ -261,31 +278,31 @@ public class Sign {
                 if (parent != null && parent.isClickable() &&
                         "android.widget.RelativeLayout".equals(parent.getClassName())) {
                     parent.click();
-                    delay(5000);
+                    delay(10000);
                     mDevice.click(916, 980);
+                    delay(10000);
+                    mDevice.click(548, 1595); // 惠赚钱->领京豆
+                    delay(8000);
+                    mDevice.swipe(820, 1608, 820, 390, 10);
+                    delay(2000);
+                    mDevice.click(554,1287);
+                    delay(6000);
+                    gestureUnlock(mDevice);
+                    delay(5000);
+                    mDevice.swipe(820, 1608, 820, 390, 10);
+                    delay(2000);
+                    mDevice.click(554,1287);
                     delay(3000);
+                    mDevice.pressBack();
+                    delay(300);
+                    mDevice.pressBack();
+                    mDevice.pressBack();
+                    mDevice.pressBack();
+                    mDevice.pressBack();
                     mDevice.pressBack();
                 }
             }
         }
-        delay(3000);
-        reLaunchApp(mDevice, Package);
-        if (mDevice.getCurrentPackageName().equals(Package)) {// "会员京豆"
-            UiObject2 vip = mDevice.wait(Until.findObject(By.desc("我的")), timeout);
-            if (vip != null) {
-                vip.click();
-                vip = mDevice.wait(Until.findObject(By.res("com.jd.lib.personal:id/user_vip")), timeout);
-                if (vip != null) {
-                    vip.click();
-                    delay(6000);
-                    mDevice.click(1009, 806);
-                    delay(3000);
-
-                }
-            }
-        }
-        mDevice.pressBack();
-        mDevice.pressBack();
         mDevice.pressBack();
     }
 
@@ -319,21 +336,28 @@ public class Sign {
                 delay(1000);
                 mDevice.pressBack();
                 delay(4000);
-                mDevice.click(554, 884); // 钢蹦
-                delay(5000);
-                mDevice.click(811, 875); // 领钢蹦
-                delay(5000);
-                mDevice.click(940, 366); // 打卡领钢蹦
-                delay(5000);
-                mDevice.click(544, 453); // 打卡
-                delay(3000);
-                mDevice.click(711, 471); // 7days 领取
-                delay(3000);
                 mDevice.pressBack();
-                delay(1000);
-                UiObject2 back = mDevice.wait(Until.findObject(By.res("com.jd.jrapp:id/btn_left")), timeout);
-                if (back != null) {
-                    back.click();
+                { // 钢蹦
+                    UiObject2 scoin = mDevice.wait(Until.findObject(By.res("com.jd.jrapp:id/thirdLayout")), timeout);
+                    if (scoin != null && scoin.isClickable()) {
+                        scoin.click();
+                        delay(5000);
+                        mDevice.click(944, 1736);
+                        delay(5000);
+                        mDevice.click(940, 366); // 打卡领钢蹦
+                        delay(5000);
+                        mDevice.click(544, 453); // 打卡
+                        delay(3000);
+                        mDevice.click(711, 471); // 7days 领取
+                        delay(3000);
+                        mDevice.pressBack();
+                        delay(1000);
+                        UiObject2 back = mDevice.wait(Until.findObject(By.res("com.jd.jrapp:id/btn_left")), timeout);
+                        if (back != null) {
+                            back.click();
+                            delay(4000);
+                        }
+                    }
                 }
                 mDevice.pressHome();
             }
