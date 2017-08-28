@@ -9,7 +9,7 @@
         android:theme="@style/pyytheme">
         <uses-library android:name="android.test.runner" />
         <activity
-            android:name=".uitest"
+            android:name=".Welcome"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
