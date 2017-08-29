@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,19 +17,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
 /**
  * Created by pyy on 2017/8/2.
  */
 
 public class Main extends Activity {
-    private final String PATH =  Environment.getExternalStorageDirectory().getAbsolutePath()
-                                    + "/AutoSignIn/";
-    private final String FILE  = PATH + "gesture.txt";
-    int[] array = {803, 902, 554, 1167, 278, 1167, 278, 1432, 803, 1432};
-    // TODO should write the user's lock point
     private final int REQUEST_WRITE_EXTERNAL_STORAGE = 727;
 
     @Override
@@ -107,44 +98,15 @@ public class Main extends Activity {
             }).setCancelable(false).show();
     }
 
-    private void saveGesture() {
-        File desDir = new File(PATH);
-        try {
-            if (!desDir.exists()) {
-                boolean ret  = desDir.mkdir();
-        }
-
-            File file = new File(FILE);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileOutputStream fout = new FileOutputStream(file);
-            fout.write(array2string(array).getBytes());
-            fout.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private static String array2string(int[] array){
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < array.length; i++){
-            sb.append(array[i]).append(",");
-        }
-        sb.deleteCharAt(sb.length() -1);
-        return sb.toString();
-    }
-
     private void init() {
         Button gestureBtn = (Button)this.findViewById(R.id.button1);
         gestureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                saveGesture();
+                Intent intent = new Intent("com.pyy.uitest.activity_save_gesture");
+                startActivity(intent);
             }
         }
         );
     }
-
 }

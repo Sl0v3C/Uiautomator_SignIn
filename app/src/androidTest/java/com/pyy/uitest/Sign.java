@@ -333,16 +333,13 @@ public class Sign {
                 signchild.click();
                 delay(5000);
                 mDevice.click(942, 600); // 签到领京豆
-                delay(1000);
-                mDevice.pressBack();
                 delay(4000);
-                mDevice.pressBack();
-                { // 钢蹦
-                    UiObject2 scoin = mDevice.wait(Until.findObject(By.res("com.jd.jrapp:id/thirdLayout")), timeout);
+                {// 钢蹦
+                    UiObject2 scoin = mDevice.wait(Until.findObject(By.text("钢镚明细")), timeout);
                     if (scoin != null && scoin.isClickable()) {
                         scoin.click();
                         delay(5000);
-                        mDevice.click(944, 1736);
+                        mDevice.click(842, 892);
                         delay(5000);
                         mDevice.click(940, 366); // 打卡领钢蹦
                         delay(5000);
