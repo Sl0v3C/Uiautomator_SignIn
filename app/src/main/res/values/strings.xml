@@ -10,6 +10,7 @@
     <string name="retap">重新输入</string>
     <string name="save">确认保存</string>
     <string name="lockpattern_too_short" >"请至少连接4个点!"</string>
+    <string name="lockpattern_saved" >"手势密码已保存"</string>
 
     <!-- Accessibility description sent when user starts drawing a lock pattern. [CHAR LIMIT=NONE] -->
     <string name="lockscreen_access_pattern_start">Pattern started</string>

@@ -73,6 +73,9 @@ public class saveGesture extends Activity implements
                 @Override
                 public void onClick(View v) {
                     saveGesture();
+                    Toast.makeText(getApplicationContext(),
+                            R.string.lockpattern_saved,
+                            Toast.LENGTH_LONG).show();
                     saveGesture.this.finish();
                 }
             }
