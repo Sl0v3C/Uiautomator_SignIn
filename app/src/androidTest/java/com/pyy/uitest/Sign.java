@@ -159,7 +159,7 @@ public class Sign {
         }
     }
 
-    @Test
+    s@Test
     public void TXDMTest() throws IOException, UiObjectNotFoundException, InterruptedException {
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         final String Package = getPackageName(TXDM);
@@ -244,7 +244,7 @@ public class Sign {
                 if (vip != null) {
                     vip.click();
                     delay(6000);
-                    mDevice.click(1009, 806);
+                    mDevice.click(1029, 302);
                     delay(3000);
                     mDevice.pressBack();
                     mDevice.pressBack();
@@ -281,20 +281,21 @@ public class Sign {
                     delay(10000);
                     mDevice.click(916, 980);
                     delay(10000);
-                    mDevice.click(548, 1595); // 惠赚钱->领京豆
+                    mDevice.click(324, 1604); // 惠赚钱->领京豆
                     delay(8000);
-                    mDevice.swipe(820, 1608, 820, 390, 10);
+                    mDevice.swipe(535, 1511, 535, 300, 10);
                     delay(2000);
-                    mDevice.click(554,1287);
+                    mDevice.click(535,983);
                     delay(6000);
                     gestureUnlock(mDevice);
                     delay(5000);
-                    mDevice.swipe(820, 1608, 820, 390, 10);
+                    mDevice.swipe(535, 1511, 535, 300, 10);
                     delay(2000);
-                    mDevice.click(554,1287);
+                    mDevice.click(535,983);
                     delay(3000);
                     mDevice.pressBack();
                     delay(300);
+                    mDevice.pressBack();
                     mDevice.pressBack();
                     mDevice.pressBack();
                     mDevice.pressBack();
@@ -307,7 +308,7 @@ public class Sign {
     }
 
     @Test
-    public void JDJRTest() throws IOException, UiObjectNotFoundException, InterruptedException {
+    public void JDFTest() throws IOException, UiObjectNotFoundException, InterruptedException {
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         final String Package = getPackageName(JDJR);
         assertThat(Package, notNullValue());
@@ -334,6 +335,7 @@ public class Sign {
                 delay(5000);
                 mDevice.click(942, 600); // 签到领京豆
                 delay(4000);
+                /*
                 {// 钢蹦
                     UiObject2 scoin = mDevice.wait(Until.findObject(By.text("钢镚明细")), timeout);
                     if (scoin != null && scoin.isClickable()) {
@@ -356,6 +358,7 @@ public class Sign {
                         }
                     }
                 }
+                */
                 mDevice.pressHome();
             }
         }
