@@ -159,7 +159,7 @@ public class Sign {
         }
     }
 
-    s@Test
+    @Test
     public void TXDMTest() throws IOException, UiObjectNotFoundException, InterruptedException {
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         final String Package = getPackageName(TXDM);
@@ -171,6 +171,10 @@ public class Sign {
         }
         mDevice.waitForWindowUpdate(Package, timeout);
         delay(5000);
+        mDevice.pressBack();
+        delay(2000);
+        mDevice.pressBack();
+        delay(2000);
         mDevice.pressBack();
         reLaunchApp(mDevice, Package);
         UiObject2 sign = mDevice.wait(Until.findObject(By.res("com.qq.ac.android:id/tab_layout_center")), timeout);
@@ -208,7 +212,9 @@ public class Sign {
         delay(3000);
         mDevice.pressBack();
         mDevice.waitForWindowUpdate(Package, timeout);
-        delay(3000);
+        delay(2000);
+        mDevice.pressBack();
+        delay(2000);
         mDevice.pressBack();
         reLaunchApp(mDevice, Package);
         UiObject2 sign = mDevice.wait(Until.findObject(By.text("签到")), timeout);
@@ -244,7 +250,7 @@ public class Sign {
                 if (vip != null) {
                     vip.click();
                     delay(6000);
-                    mDevice.click(1029, 302);
+                    mDevice.click(1002, 303);
                     delay(3000);
                     mDevice.pressBack();
                     mDevice.pressBack();
@@ -261,9 +267,9 @@ public class Sign {
                         "android.widget.RelativeLayout".equals(parent.getClassName())) {
                     parent.click();
                     delay(10000);
-                    mDevice.click(917, 420);
+                    mDevice.click(912, 305);
                     delay(10000);
-                    mDevice.click(283, 1254);
+                    mDevice.click(251, 1171);
                     mDevice.pressBack();
                     mDevice.pressBack();
                 }
@@ -279,26 +285,8 @@ public class Sign {
                         "android.widget.RelativeLayout".equals(parent.getClassName())) {
                     parent.click();
                     delay(10000);
-                    mDevice.click(916, 980);
-                    delay(10000);
-                    mDevice.click(324, 1604); // 惠赚钱->领京豆
-                    delay(8000);
-                    mDevice.swipe(535, 1511, 535, 300, 10);
-                    delay(2000);
-                    mDevice.click(535,983);
-                    delay(6000);
-                    gestureUnlock(mDevice);
-                    delay(5000);
-                    mDevice.swipe(535, 1511, 535, 300, 10);
-                    delay(2000);
-                    mDevice.click(535,983);
+                    mDevice.click(868, 853);
                     delay(3000);
-                    mDevice.pressBack();
-                    delay(300);
-                    mDevice.pressBack();
-                    mDevice.pressBack();
-                    mDevice.pressBack();
-                    mDevice.pressBack();
                     mDevice.pressBack();
                     mDevice.pressBack();
                 }
@@ -324,6 +312,8 @@ public class Sign {
             mDevice.pressBack();
             delay(3000);
             mDevice.pressBack();
+            delay(3000);
+            mDevice.pressBack();
         }
         reLaunchApp(mDevice, Package);
         UiObject2 sign = mDevice.wait(Until.findObject(By.text("签到")), timeout);
@@ -333,32 +323,11 @@ public class Sign {
             if (signchild != null) {
                 signchild.click();
                 delay(5000);
-                mDevice.click(942, 600); // 签到领京豆
-                delay(4000);
-                /*
-                {// 钢蹦
-                    UiObject2 scoin = mDevice.wait(Until.findObject(By.text("钢镚明细")), timeout);
-                    if (scoin != null && scoin.isClickable()) {
-                        scoin.click();
-                        delay(5000);
-                        mDevice.click(842, 892);
-                        delay(5000);
-                        mDevice.click(940, 366); // 打卡领钢蹦
-                        delay(5000);
-                        mDevice.click(544, 453); // 打卡
-                        delay(3000);
-                        mDevice.click(711, 471); // 7days 领取
-                        delay(3000);
-                        mDevice.pressBack();
-                        delay(1000);
-                        UiObject2 back = mDevice.wait(Until.findObject(By.res("com.jd.jrapp:id/btn_left")), timeout);
-                        if (back != null) {
-                            back.click();
-                            delay(4000);
-                        }
-                    }
-                }
-                */
+                mDevice.click(890, 616); // 签到领京豆
+                delay(3000);
+                mDevice.pressBack();
+                delay(3000);
+                mDevice.pressBack();
                 mDevice.pressHome();
             }
         }
