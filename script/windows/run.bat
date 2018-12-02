@@ -1,6 +1,6 @@
 @echo off
 
-adb wait-for-devices
+adb wait-for-device
 set "err=%errorlevel%"
 if "%err%"=="0" (
 	echo "Begin to run the tests"
